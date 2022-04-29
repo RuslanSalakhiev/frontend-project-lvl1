@@ -1,0 +1,9 @@
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    steps: 
+      - run: make lint
