@@ -24,22 +24,41 @@ export function incorrectReply(actualAnswer, correctAnswer, name) {
   console.log(`Let's try again, ${name}!`);
 }
 
+// returns [question, correctAnswer]
 export function getQuestion(game) {
-  if (game === 'brainEven') return calc.getRandomNum();
-  if (game === 'brainCalc') return `${calc.getRandomNum()} ${calc.getRandomOperator()} ${calc.getRandomNum()}`;
-  if (game === 'brainGCD') return `${calc.getRandomNum()} ${calc.getRandomNum()}`;
-  return null;
-}
-
-export function getCorrectAnswer(game, question) {
-  if (game === 'brainEven') return calc.isEven(question);
+  if (game === 'brainEven') {
+    const randNum = calc.getRandomNum();
+    return [randNum, calc.isEven(randNum)];
+  }
   if (game === 'brainCalc') {
-    const [first, operator, second] = question.split(' ');
-    return calc.calculate(first, second, operator);
+    const randNum1 = calc.getRandomNum();
+    const randNum2 = calc.getRandomNum();
+    const randOperator = calc.getRandomOperator();
+    const correctAnswer = calc.calculate(randNum1, randNum2, randOperator);
+    return [`${randNum1} ${randOperator} ${randNum2}`, correctAnswer];
   }
   if (game === 'brainGCD') {
-    const [first, second] = question.split(' ');
-    return calc.getGCD(first, second);
+    const randNum1 = calc.getRandomNum();
+    const randNum2 = calc.getRandomNum();
+    const correctAnswer = calc.getGCD(randNum1, randNum2);
+    return [`${randNum1} ${randNum2}`, correctAnswer];
+  }
+  if (game === 'brainProgression') {
+    let sequence = '';
+    const seqOperator = calc.getRandomOperator();
+    const seqLength = calc.getRandomNum(10, 5);
+    const seqInitNum = calc.getRandomNum();
+    const hiddenNumIndex = calc.getRandomNum(seqLength);
+    let hiddenValue;
+    for (let i = 0; i < seqLength; i += 1) {
+      let seqNum = calc.calculate(seqInitNum, seqInitNum * i, seqOperator);
+      if (hiddenNumIndex === i) {
+        hiddenValue = seqNum;
+        seqNum = '..';
+      }
+      sequence += `${seqNum} `;
+    }
+    return [sequence, hiddenValue];
   }
   return null;
 }

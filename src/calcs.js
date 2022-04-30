@@ -1,7 +1,7 @@
 const operations = ['+', '-', '*'];
 
-export function getRandomNum() {
-  return Math.round(Math.random() * 10) + 1;
+export function getRandomNum(max = 10, min = 1) {
+  return Math.round(Math.random() * (max - min)) + min;
 }
 
 export function isEven(questionNum) {

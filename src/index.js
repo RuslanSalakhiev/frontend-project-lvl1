@@ -7,9 +7,8 @@ function startGame(game, rules) {
   let isCorrectAnswer;
 
   do {
-    const question = di.getQuestion(game);
+    const [question, correctAnswer] = di.getQuestion(game);
     const answer = di.askQuestion(question);
-    const correctAnswer = di.getCorrectAnswer(game, question);
     isCorrectAnswer = String(answer) === String(correctAnswer);
 
     if (isCorrectAnswer) {
@@ -47,3 +46,9 @@ export function brainGCD() {
   startGame(gameName, gameRules);
 }
 
+export function brainProgression() {
+  const gameName = 'brainProgression';
+  const gameRules = 'What number is missing in the progression?';
+
+  startGame(gameName, gameRules);
+}
