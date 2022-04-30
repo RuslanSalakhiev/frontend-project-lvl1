@@ -60,5 +60,10 @@ export function getQuestion(game) {
     }
     return [sequence, hiddenValue];
   }
+
+  if (game === 'brainPrime') {
+    const randNum = calc.getRandomNum();
+    return [randNum, calc.isPrime(randNum)];
+  }
   return null;
 }

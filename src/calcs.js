@@ -4,23 +4,23 @@ export function getRandomNum(max = 10, min = 1) {
   return Math.round(Math.random() * (max - min)) + min;
 }
 
-export function isEven(questionNum) {
-  return questionNum % 2 === 0 ? 'yes' : 'no';
+export function isEven(num) {
+  return num % 2 === 0 ? 'yes' : 'no';
 }
 
 export function getRandomOperator() {
   return operations[Math.floor(Math.random() * operations.length)];
 }
 
-export function calculate(firstVal, secondVal, operator) {
-  if (operator === '+') return parseInt(firstVal, 10) + parseInt(secondVal, 10);
-  if (operator === '-') return parseInt(firstVal, 10) - parseInt(secondVal, 10);
-  if (operator === '*') return parseInt(firstVal, 10) * parseInt(secondVal, 10);
+export function calculate(firstNum, secondNum, operator) {
+  if (operator === '+') return parseInt(firstNum, 10) + parseInt(secondNum, 10);
+  if (operator === '-') return parseInt(firstNum, 10) - parseInt(secondNum, 10);
+  if (operator === '*') return parseInt(firstNum, 10) * parseInt(secondNum, 10);
   return 'error';
 }
 
-export function getGCD(firstVal, secondVal) {
-  let [min, max] = [firstVal, secondVal].sort();
+export function getGCD(firstNum, secondNum) {
+  let [min, max] = [firstNum, secondNum].sort();
   let mod;
 
   while (mod !== 0) {
@@ -30,4 +30,12 @@ export function getGCD(firstVal, secondVal) {
   }
 
   return max;
+}
+
+export function isPrime(num) {
+  const sq = Math.sqrt(num);
+  for (let i = 2; i <= sq; i += 1) {
+    if (num % i === 0) return 'no';
+  }
+  return num > 1 ? 'yes' : 'no';
 }

@@ -16,6 +16,9 @@ brain-gcd: # запуск игры
 brain-progression: # запуск игры
 	node bin/brain-progression.js
 
+brain-prime: # запуск игры
+	node bin/brain-prime.js
+
 publish: #публикация
 	npm publish --dry-run
 
