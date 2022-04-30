@@ -27,6 +27,7 @@ export function incorrectReply(actualAnswer, correctAnswer, name) {
 export function getQuestion(game) {
   if (game === 'brainEven') return calc.getRandomNum();
   if (game === 'brainCalc') return `${calc.getRandomNum()} ${calc.getRandomOperator()} ${calc.getRandomNum()}`;
+  if (game === 'brainGCD') return `${calc.getRandomNum()} ${calc.getRandomNum()}`;
   return null;
 }
 
@@ -35,6 +36,10 @@ export function getCorrectAnswer(game, question) {
   if (game === 'brainCalc') {
     const [first, operator, second] = question.split(' ');
     return calc.calculate(first, second, operator);
+  }
+  if (game === 'brainGCD') {
+    const [first, second] = question.split(' ');
+    return calc.getGCD(first, second);
   }
   return null;
 }

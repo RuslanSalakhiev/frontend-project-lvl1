@@ -39,3 +39,11 @@ export function brainCalc() {
 
   startGame(gameName, gameRules);
 }
+
+export function brainGCD() {
+  const gameName = 'brainGCD';
+  const gameRules = 'Find the greatest common divisor of given numbers.';
+
+  startGame(gameName, gameRules);
+}
+
