@@ -1,6 +1,10 @@
 import readlineSync from 'readline-sync';
 import * as calc from './calcs.js';
 
+function boolToAnswer(bool) {
+  return bool ? 'yes' : 'no';
+}
+
 export function greeting(gameRules) {
   console.log('Welcome to the Brain Games!');
   const name = readlineSync.question('May I have your name? ');
@@ -28,7 +32,8 @@ export function incorrectReply(actualAnswer, correctAnswer, name) {
 export function getQuestion(game) {
   if (game === 'brainEven') {
     const randNum = calc.getRandomNum();
-    return [randNum, calc.isEven(randNum)];
+    const correctAnswer = boolToAnswer(calc.isEven(randNum));
+    return [randNum, correctAnswer];
   }
   if (game === 'brainCalc') {
     const randNum1 = calc.getRandomNum();
@@ -63,7 +68,8 @@ export function getQuestion(game) {
 
   if (game === 'brainPrime') {
     const randNum = calc.getRandomNum();
-    return [randNum, calc.isPrime(randNum)];
+    const correctAnswer = boolToAnswer(calc.isPrime(randNum));
+    return [randNum, correctAnswer];
   }
   return null;
 }

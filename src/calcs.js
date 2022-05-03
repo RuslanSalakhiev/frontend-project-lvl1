@@ -5,7 +5,7 @@ export function getRandomNum(max = 10, min = 1) {
 }
 
 export function isEven(num) {
-  return num % 2 === 0 ? 'yes' : 'no';
+  return num % 2 === 0;
 }
 
 export function getRandomOperator() {
@@ -35,7 +35,7 @@ export function getGCD(firstNum, secondNum) {
 export function isPrime(num) {
   const sq = Math.sqrt(num);
   for (let i = 2; i <= sq; i += 1) {
-    if (num % i === 0) return 'no';
+    if (num % i === 0) return false;
   }
-  return num > 1 ? 'yes' : 'no';
+  return num > 1;
 }
