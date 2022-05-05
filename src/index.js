@@ -1,14 +1,66 @@
 #!/usr/bin/env node
 import * as di from './dialog.js';
+import * as calc from './calcs.js';
 
-function startGame(game, rules) {
+function boolToAnswer(bool) {
+  return bool ? 'yes' : 'no';
+}
+
+export function getQuestion(game) {
+  if (game === 'brainEven') {
+    const randNum = calc.getRandomNum();
+    const correctAnswer = boolToAnswer(calc.isEven(randNum));
+    return [randNum, correctAnswer];
+  }
+  if (game === 'brainCalc') {
+    const randNum1 = calc.getRandomNum();
+    const randNum2 = calc.getRandomNum();
+    const randOperator = calc.getRandomOperator();
+    const correctAnswer = calc.calculate(randNum1, randNum2, randOperator);
+    return [`${randNum1} ${randOperator} ${randNum2}`, correctAnswer];
+  }
+  if (game === 'brainGCD') {
+    const randNum1 = calc.getRandomNum();
+    const randNum2 = calc.getRandomNum();
+    const correctAnswer = calc.getGCD(randNum1, randNum2);
+    return [`${randNum1} ${randNum2}`, correctAnswer];
+  }
+  if (game === 'brainProgression') {
+    let sequence = '';
+    const seqOperator = calc.getRandomOperator();
+    const seqLength = calc.getRandomNum(10, 5);
+    const seqInitNum = calc.getRandomNum();
+    const hiddenNumIndex = calc.getRandomNum(seqLength);
+    let hiddenValue;
+    for (let i = 0; i < seqLength; i += 1) {
+      let seqNum = calc.calculate(seqInitNum, seqInitNum * i, seqOperator);
+      if (hiddenNumIndex === i) {
+        hiddenValue = seqNum;
+        seqNum = '..';
+      }
+      sequence += `${seqNum} `;
+    }
+    return [sequence, hiddenValue];
+  }
+
+  if (game === 'brainPrime') {
+    const randNum = calc.getRandomNum();
+    const correctAnswer = boolToAnswer(calc.isPrime(randNum));
+    return [randNum, correctAnswer];
+  }
+  return null;
+}
+
+export function startGame(game, rules) {
   let counts = 1;
-  const name = di.greeting(rules);
   let isCorrectAnswer;
 
+  const name = di.askName(rules);
+
   do {
-    const [question, correctAnswer] = di.getQuestion(game);
+    const [question, correctAnswer] = getQuestion(game);
     const answer = di.askQuestion(question);
+
     isCorrectAnswer = String(answer) === String(correctAnswer);
 
     if (isCorrectAnswer) {
@@ -23,39 +75,4 @@ function startGame(game, rules) {
   if (isCorrectAnswer) {
     console.log(`Congratulations, ${name}!`);
   }
-}
-
-export function brainEven() {
-  const gameName = 'brainEven';
-  const gameRules = 'Answer "yes" if the number is even, otherwise answer "no"';
-
-  startGame(gameName, gameRules);
-}
-
-export function brainCalc() {
-  const gameName = 'brainCalc';
-  const gameRules = 'What is the result of the expression?';
-
-  startGame(gameName, gameRules);
-}
-
-export function brainGCD() {
-  const gameName = 'brainGCD';
-  const gameRules = 'Find the greatest common divisor of given numbers.';
-
-  startGame(gameName, gameRules);
-}
-
-export function brainProgression() {
-  const gameName = 'brainProgression';
-  const gameRules = 'What number is missing in the progression?';
-
-  startGame(gameName, gameRules);
-}
-
-export function brainPrime() {
-  const gameName = 'brainPrime';
-  const gameRules = 'Answer "yes" if given number is prime. Otherwise answer "no".';
-
-  startGame(gameName, gameRules);
 }

@@ -1,4 +1,7 @@
 #!/usr/bin/env node
-import { brainProgression } from '../src/index.js';
+import { startGame } from '../src/index.js';
 
-brainProgression();
+const gameName = 'brainProgression';
+const gameRules = 'What number is missing in the progression?';
+
+startGame(gameName, gameRules);
