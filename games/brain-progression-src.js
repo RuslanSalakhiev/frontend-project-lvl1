@@ -5,7 +5,8 @@ export default function getQuestionAnswerFunc() {
   const seqOperator = getRandomOperator();
   const seqLength = getRandomNum(10, 5);
   const seqInitNum = getRandomNum();
-  const hiddenNumIndex = getRandomNum(seqLength);
+  const hiddenNumIndex = getRandomNum(seqLength - 1);
+
   let hiddenValue;
 
   for (let i = 0; i < seqLength; i += 1) {
@@ -17,5 +18,6 @@ export default function getQuestionAnswerFunc() {
     sequence += `${seqNum} `;
   }
 
+  console.log(sequence, hiddenValue);
   return [sequence, hiddenValue];
 }
