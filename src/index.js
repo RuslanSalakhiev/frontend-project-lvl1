@@ -1,64 +1,34 @@
 #!/usr/bin/env node
 import * as di from './dialog.js';
-import * as calc from './calcs.js';
 
-function boolToAnswer(bool) {
+export function boolToAnswer(bool) {
   return bool ? 'yes' : 'no';
 }
+const operations = ['+', '-', '*'];
 
-export function getQuestion(game) {
-  if (game === 'brainEven') {
-    const randNum = calc.getRandomNum();
-    const correctAnswer = boolToAnswer(calc.isEven(randNum));
-    return [randNum, correctAnswer];
-  }
-  if (game === 'brainCalc') {
-    const randNum1 = calc.getRandomNum();
-    const randNum2 = calc.getRandomNum();
-    const randOperator = calc.getRandomOperator();
-    const correctAnswer = calc.calculate(randNum1, randNum2, randOperator);
-    return [`${randNum1} ${randOperator} ${randNum2}`, correctAnswer];
-  }
-  if (game === 'brainGCD') {
-    const randNum1 = calc.getRandomNum();
-    const randNum2 = calc.getRandomNum();
-    const correctAnswer = calc.getGCD(randNum1, randNum2);
-    return [`${randNum1} ${randNum2}`, correctAnswer];
-  }
-  if (game === 'brainProgression') {
-    let sequence = '';
-    const seqOperator = calc.getRandomOperator();
-    const seqLength = calc.getRandomNum(10, 5);
-    const seqInitNum = calc.getRandomNum();
-    const hiddenNumIndex = calc.getRandomNum(seqLength);
-    let hiddenValue;
-    for (let i = 0; i < seqLength; i += 1) {
-      let seqNum = calc.calculate(seqInitNum, seqInitNum * i, seqOperator);
-      if (hiddenNumIndex === i) {
-        hiddenValue = seqNum;
-        seqNum = '..';
-      }
-      sequence += `${seqNum} `;
-    }
-    return [sequence, hiddenValue];
-  }
-
-  if (game === 'brainPrime') {
-    const randNum = calc.getRandomNum();
-    const correctAnswer = boolToAnswer(calc.isPrime(randNum));
-    return [randNum, correctAnswer];
-  }
-  return null;
+export function getRandomOperator() {
+  return operations[Math.floor(Math.random() * operations.length)];
 }
 
-export function startGame(game, rules) {
+export function getRandomNum(max = 10, min = 1) {
+  return Math.round(Math.random() * (max - min)) + min;
+}
+
+export function calculate(firstNum, secondNum, operator) {
+  if (operator === '+') return parseInt(firstNum, 10) + parseInt(secondNum, 10);
+  if (operator === '-') return parseInt(firstNum, 10) - parseInt(secondNum, 10);
+  if (operator === '*') return parseInt(firstNum, 10) * parseInt(secondNum, 10);
+  return 'error';
+}
+
+export function startGame(game, rules, gameFunc) {
   let counts = 1;
   let isCorrectAnswer;
 
   const name = di.askName(rules);
 
   do {
-    const [question, correctAnswer] = getQuestion(game);
+    const [question, correctAnswer] = gameFunc();
     const answer = di.askQuestion(question);
 
     isCorrectAnswer = String(answer) === String(correctAnswer);
