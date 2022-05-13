@@ -1,5 +1,34 @@
 #!/usr/bin/env node
-import * as di from './dialog.js';
+import readlineSync from 'readline-sync';
+
+function greeting() {
+  console.log('Welcome to the Brain Games!');
+}
+
+function askName() {
+  const name = readlineSync.question('May I have your name? ');
+  console.log(`Hello, ${name}!`);
+  return name;
+}
+
+function showRules(gameRules) {
+  console.log(gameRules);
+}
+
+function askQuestion(questionText) {
+  console.log(`Question: ${questionText}`);
+
+  return readlineSync.question('Your answer: ');
+}
+
+function correctReply() {
+  console.log('Correct!');
+}
+
+function incorrectReply(actualAnswer, correctAnswer, name) {
+  console.log(`'${actualAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'`);
+  console.log(`Let's try again, ${name}!`);
+}
 
 export function boolToAnswer(bool) {
   return bool ? 'yes' : 'no';
@@ -14,33 +43,29 @@ export function getRandomNum(max = 10, min = 1) {
   return Math.round(Math.random() * (max - min)) + min;
 }
 
-export function calculate(firstNum, secondNum, operator) {
-  if (operator === '+') return parseInt(firstNum, 10) + parseInt(secondNum, 10);
-  if (operator === '-') return parseInt(firstNum, 10) - parseInt(secondNum, 10);
-  if (operator === '*') return parseInt(firstNum, 10) * parseInt(secondNum, 10);
-  return 'error';
-}
-
 export function startGame(game, rules, gameFunc) {
   let counts = 1;
   let isCorrectAnswer;
+  const maxQuestions = 3;
 
-  const name = di.askName(rules);
+  greeting();
+  const name = askName();
+  showRules(rules);
 
   do {
     const [question, correctAnswer] = gameFunc();
-    const answer = di.askQuestion(question);
+    const answer = askQuestion(question);
 
     isCorrectAnswer = String(answer) === String(correctAnswer);
 
     if (isCorrectAnswer) {
-      di.correctReply();
+      correctReply();
       counts += 1;
     } else {
-      di.incorrectReply(answer, correctAnswer, name);
+      incorrectReply(answer, correctAnswer, name);
       break;
     }
-  } while (isCorrectAnswer && counts <= 3);
+  } while (isCorrectAnswer && counts <= maxQuestions);
 
   if (isCorrectAnswer) {
     console.log(`Congratulations, ${name}!`);
