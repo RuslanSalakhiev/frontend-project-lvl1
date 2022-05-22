@@ -33,17 +33,8 @@ function incorrectReply(actualAnswer, correctAnswer, name) {
 export function boolToAnswer(bool) {
   return bool ? 'yes' : 'no';
 }
-const operations = ['+', '-', '*'];
 
-export function getRandomOperator() {
-  return operations[Math.floor(Math.random() * operations.length)];
-}
-
-export function getRandomNum(max = 10, min = 1) {
-  return Math.round(Math.random() * (max - min)) + min;
-}
-
-export function startGame(game, rules, gameFunc) {
+export function startGame(rules, getQuestionAndCorrectAnswer) {
   let counts = 1;
   let isCorrectAnswer;
   const maxQuestions = 3;
@@ -53,16 +44,16 @@ export function startGame(game, rules, gameFunc) {
   showRules(rules);
 
   do {
-    const [question, correctAnswer] = gameFunc();
-    const answer = askQuestion(question);
+    const [question, correctAnswer] = getQuestionAndCorrectAnswer();
+    const userAnswer = askQuestion(question);
 
-    isCorrectAnswer = String(answer) === String(correctAnswer);
+    isCorrectAnswer = String(userAnswer) === String(correctAnswer);
 
     if (isCorrectAnswer) {
       correctReply();
       counts += 1;
     } else {
-      incorrectReply(answer, correctAnswer, name);
+      incorrectReply(userAnswer, correctAnswer, name);
       break;
     }
   } while (isCorrectAnswer && counts <= maxQuestions);

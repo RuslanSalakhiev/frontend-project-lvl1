@@ -1,4 +1,7 @@
-import { getRandomNum, getRandomOperator, startGame } from '../index.js';
+import { startGame } from '../index.js';
+import { getRandomNum, getRandomOperator } from '../utils.js';
+
+const GAMERULES = 'What number is missing in the progression?';
 
 function calculate(firstNum, secondNum, operator) {
   if (operator === '+') return parseInt(firstNum, 10) + parseInt(secondNum, 10);
@@ -7,7 +10,7 @@ function calculate(firstNum, secondNum, operator) {
   return 'error';
 }
 
-function getQuestionAnswerFunc() {
+function getQuestionAndCorrectAnswer() {
   let sequence = '';
   const seqOperator = getRandomOperator();
   const seqLength = getRandomNum(10, 5);
@@ -29,9 +32,5 @@ function getQuestionAnswerFunc() {
 }
 
 export default function brainProgression() {
-  const gameName = 'brainProgression';
-  const gameRules = 'What number is missing in the progression?';
-  const gameQuestioningFunc = getQuestionAnswerFunc;
-
-  startGame(gameName, gameRules, gameQuestioningFunc);
+  startGame(GAMERULES, getQuestionAndCorrectAnswer);
 }
